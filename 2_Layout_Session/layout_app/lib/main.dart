@@ -61,26 +61,14 @@ class MyHomePage extends StatelessWidget {
     );
   }
 
-  Widget _getActionColumn({required IconData iconData, required String label}) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Icon(iconData, color: Colors.blue),
-        ),
-        Text(label,
-            style: GoogleFonts.openSans(
-                textStyle: const TextStyle(color: Colors.blue)))
-      ],
-    );
-  }
-
   Widget _actionRow() {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-      _getActionColumn(iconData: Icons.call, label: 'CALL'),
-      _getActionColumn(iconData: Icons.near_me, label: 'ROUTE'),
-      _getActionColumn(iconData: Icons.share, label: 'SHARE'),
-    ]);
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: const [
+          ActionWidget(iconData: Icons.call, label: 'CALL'),
+          ActionWidget(iconData: Icons.near_me, label: 'ROUTE'),
+          ActionWidget(iconData: Icons.share, label: 'SHARE'),
+        ]);
   }
 
   @override
@@ -147,6 +135,41 @@ class _IconCountWidgetState extends State<IconCountWidget> {
             alignment: Alignment.center,
             width: 30,
             child: Text(_count.toString()))
+      ],
+    );
+  }
+}
+
+class ActionWidget extends StatefulWidget {
+  const ActionWidget({Key? key, required this.iconData, required this.label})
+      : super(key: key);
+  final IconData iconData;
+  final String label;
+
+  @override
+  _ActionWidgetState createState() => _ActionWidgetState();
+}
+
+class _ActionWidgetState extends State<ActionWidget> {
+  Color _color = Colors.blue;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        IconButton(
+            onPressed: () {
+              setState(() {
+                if (_color == Colors.blue) {
+                  _color = Colors.red;
+                } else {
+                  _color = Colors.blue;
+                }
+              });
+            },
+            icon: Icon(widget.iconData, color: _color)),
+        Text(widget.label,
+            style: GoogleFonts.openSans(textStyle: TextStyle(color: _color)))
       ],
     );
   }
