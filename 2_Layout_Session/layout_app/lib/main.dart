@@ -1,0 +1,141 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        // This is the theme of your application.
+        //
+        // Try running your application with "flutter run". You'll see the
+        // application has a blue toolbar. Then, without quitting the app, try
+        // changing the primarySwatch below to Colors.green and then invoke
+        // "hot reload" (press "r" in the console where you ran "flutter run",
+        // or simply save your changes to "hot reload" in a Flutter IDE).
+        // Notice that the counter didn't reset back to zero; the application
+        // is not restarted.
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
+  final _padding = 20.0;
+
+  Widget _titleRow() {
+    return Padding(
+      padding: EdgeInsets.all(_padding),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text(
+                    'Oeschinen Lake Campground',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  ),
+                  Text('Kandersteg, Switzerland',
+                      style: TextStyle(color: Colors.grey, fontSize: 15))
+                ]),
+          ),
+          const IconCountWidget()
+        ],
+      ),
+    );
+  }
+
+  Widget _getActionColumn({required IconData iconData, required String label}) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(iconData, color: Colors.blue),
+        ),
+        Text(label, style: const TextStyle(color: Colors.blue))
+      ],
+    );
+  }
+
+  Widget _actionRow() {
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+      _getActionColumn(iconData: Icons.call, label: 'CALL'),
+      _getActionColumn(iconData: Icons.near_me, label: 'ROUTE'),
+      _getActionColumn(iconData: Icons.share, label: 'SHARE'),
+    ]);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Column(
+      children: [
+        Image.asset(
+          'assets/images/lake.jpg',
+          // height: 300,
+          fit: BoxFit.cover,
+        ),
+        _titleRow(),
+        _actionRow(),
+        Padding(
+          padding: EdgeInsets.all(_padding),
+          child: const Text(
+              'Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese Alps. '
+              'Situated 1,578 meters above sea level, it is one of the larger Alpine '
+              'Lakes. A gondola ride from Kandersteg, followed by a half-hour walk '
+              'through pastures and pine forest, leads you to the lake, '
+              'which warms to 20 degrees Celsius in the summer. Activities '
+              'enjoyed here include rowing, and riding the summer toboggan run.'),
+        )
+      ],
+    ));
+  }
+}
+
+class IconCountWidget extends StatefulWidget {
+  const IconCountWidget({Key? key}) : super(key: key);
+
+  @override
+  _IconCountWidgetState createState() => _IconCountWidgetState();
+}
+
+class _IconCountWidgetState extends State<IconCountWidget> {
+  bool _selected = true;
+  int _count = 41;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        IconButton(
+            onPressed: () {
+              setState(() {
+                if (_selected) {
+                  _count--;
+                } else {
+                  _count++;
+                }
+
+                _selected = !_selected;
+              });
+            },
+            icon: Icon(
+              _selected ? Icons.star : Icons.star_border_outlined,
+              color: Colors.red,
+            )),
+        Text(_count.toString())
+      ],
+    );
+  }
+}
