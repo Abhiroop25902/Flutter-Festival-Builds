@@ -63,7 +63,7 @@ class _TimeWidgetState extends State<TimeWidget> {
   String _timeString = "";
 
   String get _currTime {
-    return DateFormat(DateFormat.HOUR_MINUTE_SECOND).format(DateTime.now());
+    return DateFormat(DateFormat.HOUR_MINUTE).format(DateTime.now());
   }
 
   @override
