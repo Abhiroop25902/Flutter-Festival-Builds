@@ -54,14 +54,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: TextField(
                   onSubmitted: (_) => sendData(),
                   controller: _controller,
-                  decoration: InputDecoration(hintText: 'Enter Place'),
+                  decoration: const InputDecoration(hintText: 'Enter Place'),
                   textAlign: TextAlign.center,
                 )),
             ElevatedButton(
                 onPressed: () {
                   sendData();
                 },
-                child: Text('Search')),
+                child: const Text('Search')),
           ],
         ),
       ),
