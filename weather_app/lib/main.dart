@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/networking.dart';
+import 'package:weather_app/weather_info.dart';
 import 'package:weather_app/weather_page.dart';
 
 void main() {
@@ -70,13 +72,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void sendData() {
     var text = _controller.text;
-
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => WeatherPage(
-                  title: text.isEmpty ? 'Mumbai' : text,
-                )));
     _controller.clear();
+
+    if (text.isNotEmpty) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FutureBuilder<WeatherInfo>(
+                  future: getWeatherInfo(location: text),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return WeatherPage(weatherInfo: snapshot.data!);
+                    } else if (snapshot.hasError) {
+                      return Scaffold(
+                        appBar: AppBar(),
+                        body: Center(child: Text(snapshot.error.toString())),
+                      );
+                    }
+                    return const Scaffold(
+                      body: Center(child: CircularProgressIndicator()),
+                    );
+                  })));
+    }
   }
 }
